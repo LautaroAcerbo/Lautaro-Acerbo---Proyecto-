@@ -34,14 +34,15 @@ const materiales = [
 ]
 
 function comprar() {
-    let seleccion = prompt("Seleccione los materiales que desea comprar: \n -Cemento \n -Hormigon \n -Ceramica \n -Chapa \n -Madera \n -Porcelanato \n -Dvh \n -Aluminio \n -Metal \n -Arena \n -Cal \n -Ladrillo \n -Acero \n -Vigas \n -Losa")
-    const productoSeleccionado = materiales.find((item) => item.nombre === seleccion);
-    if(seleccion != materiales.nombre){
-        alert("ingrese materiales que integren la lista por favor")
+    let seleccion = prompt("Seleccione los materiales que desea comprar: \n -Cemento \n -Hormigon \n -Ceramica \n -Chapa \n -Madera \n -Porcelanato \n -Dvh \n -Aluminio \n -Metal \n -Arena \n -Cal \n -Ladrillo \n -Acero \n -Vigas \n -Losa").toLowerCase();
+    const productoSeleccionado = materiales.find((item) => item.nombre === seleccion.toLowerCase());
+    if (productoSeleccionado) {
+        alert("Usted añadio " + seleccion + " al carrito")
+        carrito.push(productoSeleccionado)
+    } else {
+        alert("Ingrese materiales que esten en stock")
         comprar();
     }
-    alert("Usted agrego " + seleccion + " al carrito")
-    carrito.push(seleccion)
 }
 comprar();
 
@@ -58,7 +59,7 @@ function otraVez() {
             break;
         default:
             if (seguir != "si" || seguir != "no") {
-                alert("El nombre no puede estar vacío o ingresó un valor incorrecto. Por favor, inténtalo de nuevo.");
+                alert("La celda no puede estar vacía o ingresó un valor incorrecto. Por favor, inténtalo de nuevo.");
                 otraVez();
             }
     }
@@ -66,36 +67,57 @@ function otraVez() {
 
 otraVez();
 console.log(carrito);
-// switch (seguir) {
-//     case "si":
-//             comprar();
-//             seguir = prompt("¿Desea seguir añadiendo materiales a su carrito de compra? SI/NO")
-//     case "no":
-//         alert("Procedemos a realizar el pago")
-//         break;
-//     default:
-//         alert("El nombre no puede estar vacío o ingresó un valor incorrecto. Por favor, inténtalo de nuevo.");
-//         seguir = prompt("¿Desea seguir añadiendo materiales a su carrito de compra? SI/NO");
-// }
-
-
-// if(seguir != "si" || seguir != "no"){
-//     alert("El nombre no puede estar vacío o ingresó un valor incorrecto. Por favor, inténtalo de nuevo.");
-//     otraVez();
-// }
-
-
-// if (seguir === "si") {
-//     comprar();
-//     seguir = prompt("¿Desea seguir añadiendo materiales a su carrito de compra? SI/NO")
-// }
 
 
 
 
 
+function pagar() {
+    let pago = prompt("Indique su metodo de pago: \n -Efectivo \n -Debito \n -Credito").toLowerCase();
+    const sumaTotal = carrito.map((item) => item.precio)
+    const precioFinal = sumaTotal.reduce((acumulador, item) => acumulador + item, 0)
 
-
-
-
-
+    switch (pago) {
+        case "efectivo":
+            alert("El total es $" + precioFinal + " . Recibira una boleta electronica en su casilla de correo para realizar el pago en en el Rapi Pago mas cercano.")
+            break;
+        case "debito":
+            let debito = (prompt("Ingrese los numeros de su Tarjeta:"));
+            if(debito.trim()==="" || isNaN(debito)){
+                alert("La celda no puede quedar vacía ni admitir strings. Por favor, inténtelo de nuevo.");
+                debito = (prompt("Ingrese los numeros de su Tarjeta:"));
+            }else{
+                alert("El total es $ " + precioFinal + " . Recibirá su ticket digital en su casilla de correo")
+            }
+            break;
+            case "credito":
+                
+                
+                alert("Su compra tendra un recargo de IVA, su total es " + precioFinal * 1.21)
+                alert("Recibirá su ticket digital en su casilla de correo")
+                break;
+                default:
+                    alert("La opción ingresada no es válida. Por favor, inténtelo de nuevo.");
+                    pagar();
+                    break;
+                }
+            }
+            
+            pagar();
+            
+            alert("Su compra finalizó, muchas gracias por visitar nuestro sitio web")
+            
+            
+            // if (!isNaN(debito)) {
+            //     alert("El total es $ " + precioFinal + " . Recibirá su ticket digital en su casilla de correo")
+            // } else {
+            //     while (isNaN(debito) || debito === null) {
+            //         alert("Solo se admiten valores numericos")
+            //         pagar();
+            //     }
+            // }
+            
+            
+            
+            
+            
